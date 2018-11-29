@@ -89,6 +89,8 @@ def getInsuranceData():
     url, data = f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}', {
         "memory": {}}
     data_bytes = bytes(json.dumps(data), encoding='utf8')
+    import time
+    time.sleep(10)
     req = Request(url, method='PUT', data=data_bytes, headers={'Content-Type': 'application/json',
                                                                    'Authorization': 'Token 6a41bb1be6895ce456977bda97a17fe9'})
     with urlopen(req) as response:
