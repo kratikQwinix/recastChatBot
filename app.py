@@ -57,12 +57,7 @@ def getInsuranceData():
             "content": "The policy you entered wasn't found. Please enter a valid policy number"
         }]
         data_to_store_in_memory = {
-            "memory": {
-                "policy_number": None,
-                "account_name": None,
-                "premium": None,
-                "expiration_date": None
-            }
+            "memory": {}
         }
     else:
         insurance_data = insurance_data.first()
