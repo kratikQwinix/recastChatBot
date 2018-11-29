@@ -98,7 +98,9 @@ def get_policy_individual_details():
         "type": "text",
         "content": "Here's what I found."
     }]
-
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": response_message_obj})
     for entity in entities[:]:
         if entity not in all_entities:
             entities.remove(entity)
