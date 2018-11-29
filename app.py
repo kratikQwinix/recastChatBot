@@ -58,9 +58,7 @@ def getInsuranceData():
             "content": "No policy found. Please enter valid policy number"
         }]
         data_to_store_in_memory = {
-            "memory": {
-                "policy_number": {}
-            }
+            "memory": None
         }
     else:
         insurance_data = insurance_data.first()
@@ -73,16 +71,19 @@ def getInsuranceData():
                 "policy_number": insurance_data.policy_number,
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
-                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y'),
-            },
+                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
+            }
         }
+
     
-    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                                            json= data_to_store_in_memory)
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
+
+
+    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
     print(store)
     return "OK"
 
