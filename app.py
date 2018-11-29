@@ -53,6 +53,11 @@ def getInsuranceData():
             "type": "text",
             "content": "No policy found. Please enter valid policy number"
         }
+        data_to_store_in_memory = {
+            "memory": {
+                "policy_number": ""
+            }
+        }
     else:
         response_message_obj = {
             "type": "text",
@@ -65,9 +70,9 @@ def getInsuranceData():
                 "premium": insurance_data.premium,
                 "expiration_date": insurance_data.expiration_date,
             },
-            "merge_memory" : "true"
         }
-        requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+    
+    requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             data={data_to_store_in_memory}
                                            )
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
