@@ -46,7 +46,7 @@ def getResponse():
 
 @app.route('/api/v1/getInsuranceData', methods=['POST'])
 def getInsuranceData():
-    # sampledata = {'nlp': {'uuid': 'cf771ba7-bc07-4520-8c1f-86f29c185d19', 'intents': [{'slug': 'insurancedetails', 'confidence': 0.99, 'description': None}], 'entities': {'policynumber': [{'value': '3123123', 'raw': '3123123', 'confidence': 0.87}]}, 'language': 'en', 'processing_language': 'en', 'version': '2.12.0-20a34c24', 'timestamp': '2018-11-29T06:12:23.139483+00:00', 'status': 200, 'source': '3123123', 'act': 'assert', 'type': None, 'sentiment': 'neutral'}, 'action_id': 'ed62dc85-d66f-4121-ac56-4034f95e1729', 'conversation': {'id': 'test-1543471909240', 'conversation_id': 'test-1543471909240', 'warning': 'The conversation_id field will be depreciated on January 1st 2018! Switch to using the id field instead', 'language': 'en', 'memory': {'policyNumber': {'value': '3123123', 'raw': '3123123', 'confidence': 0.87}}, 'skill_stack': ['askforinsurancenumber'], 'skill': 'askforinsurancenumber', 'skill_occurences': 2, 'participant_data': {}}}
+    sampledata = {'nlp': {'uuid': 'cf771ba7-bc07-4520-8c1f-86f29c185d19', 'intents': [{'slug': 'insurancedetails', 'confidence': 0.99, 'description': None}], 'entities': {'policynumber': [{'value': '3123123', 'raw': '3123123', 'confidence': 0.87}]}, 'language': 'en', 'processing_language': 'en', 'version': '2.12.0-20a34c24', 'timestamp': '2018-11-29T06:12:23.139483+00:00', 'status': 200, 'source': '3123123', 'act': 'assert', 'type': None, 'sentiment': 'neutral'}, 'action_id': 'ed62dc85-d66f-4121-ac56-4034f95e1729', 'conversation': {'id': 'test-1543471909240', 'conversation_id': 'test-1543471909240', 'warning': 'The conversation_id field will be depreciated on January 1st 2018! Switch to using the id field instead', 'language': 'en', 'memory': {'policyNumber': {'value': '3123123', 'raw': '3123123', 'confidence': 0.87}}, 'skill_stack': ['askforinsurancenumber'], 'skill': 'askforinsurancenumber', 'skill_occurences': 2, 'participant_data': {}}}
     recast_response = json.loads(request.get_data())
     policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
     conversation_id = recast_response['conversation']['id']
@@ -58,7 +58,12 @@ def getInsuranceData():
             "content": "No policy found. Please enter valid policy number"
         }]
         data_to_store_in_memory = {
-            "memory": None
+            "memory": {
+                "policy_number": None,
+                "account_name": None,
+                "premium": None,
+                "expiration_date": None
+            }
         }
     else:
         insurance_data = insurance_data.first()
@@ -86,6 +91,33 @@ def getInsuranceData():
                                             json= data_to_store_in_memory)
     print(store.text)
     return "OK"
+
+
+@app.route('/api/v1/getIndividualDetails', methods=['POST'])
+def get_policy_individual_details():
+    recast_response = json.loads(request.get_data())
+    policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
+    conversation_id = recast_response['conversation']['id']
+    requested_detail = recast_response['nlp']['entities']
+    for key, val in requested_detail.items():
+        requested_detail = key
+        value = "bar"
+        response_message_obj = [{
+            "type": "text",
+            "content": f"The {requested_detail}  is {value}"
+        }]
+        requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                      headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                      json={"messages": response_message_obj})
+
+
+
+
+
+
+
+
+
 
 # response = sendMessageToUser(insurance_data,conversation_id)
 # def sendMessageToUser(data, convId):
