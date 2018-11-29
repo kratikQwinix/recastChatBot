@@ -47,12 +47,13 @@ def getInsuranceData():
     policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
     conversation_id = recast_response['conversation']['id']
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number)
-
+    print(recast_response)
     if insurance_data.count() == 0:
         response_message_obj = {
             "type": "text",
             "content": "No policy found. Please enter valid policy number"
         }
+        return "Not found"
     else:
         response_message_obj = {
             "type": "text",
@@ -74,9 +75,8 @@ def getInsuranceData():
         requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             data={data_to_store_in_memory}
                                            )
-    # response = sendMessageToUser(insurance_data,conversation_id)
-    print(recast_response)
-    return message_sent_response
+        # response = sendMessageToUser(insurance_data,conversation_id)
+        return message_sent_response
 
 
 # def sendMessageToUser(data, convId):
