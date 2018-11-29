@@ -7,6 +7,7 @@ import recastai
 import os
 import pdb
 
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
@@ -24,7 +25,8 @@ RECAST_DEVELOPER_TOKEN = os.environ.get("API_DEVELOPER_TOKEN", default=None)
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    insurances = session.query(Insurance).all()
+    return render_template('index.html', insurances=insurances)
 
 @app.route('/api/v1/getResponse', methods=['GET'])
 def getResponse():
