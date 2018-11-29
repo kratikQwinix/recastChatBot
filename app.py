@@ -53,7 +53,7 @@ def getInsuranceData():
     if insurance_data.count() == 0:
         response_message_obj = [{
             "type": "text",
-            "content": "No policy found. Please enter valid policy number"
+            "content": "The policy you entered wasn't found. Please enter a valid policy number"
         }]
         data_to_store_in_memory = {
             "memory": {
@@ -67,7 +67,7 @@ def getInsuranceData():
         insurance_data = insurance_data.first()
         response_message_obj = [{
             "type": "text",
-            "content":"Policy found. What would you like to know"
+            "content":"Policy found! What would you like to know about it?"
         }]
         data_to_store_in_memory = {
             "memory" : {
