@@ -87,7 +87,7 @@ def getInsuranceData():
     #                                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
     #                                         json= data_to_store_in_memory)
     url, data = f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}', {
-        "memory": {}}
+        "memory": data_to_store_in_memory}
     data_bytes = bytes(json.dumps(data), encoding='utf8')
     import time
     time.sleep(20)
