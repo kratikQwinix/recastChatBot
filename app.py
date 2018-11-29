@@ -84,7 +84,7 @@ def getInsuranceData():
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                             json= data_to_store_in_memory)
-    print(store)
+    print(store.text)
     return "OK"
 
 # response = sendMessageToUser(insurance_data,conversation_id)
