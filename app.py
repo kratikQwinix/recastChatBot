@@ -54,7 +54,7 @@ def getInsuranceData():
     if insurance_data.count() == 0:
         response_message_obj = [{
             "type": "text",
-            "content": "The policy you entered wasn't found. Please enter a valid policy number"
+            "content": "The policy you entered wasn't found. Please enter a valid policy number."
         }]
         data_to_store_in_memory = {
             "memory": {}
@@ -83,13 +83,6 @@ def getInsuranceData():
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                             json= data_to_store_in_memory)
-    # ----
-    # url, data = f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}', { "memory": data_to_store_in_memory}
-    # data_bytes = bytes(json.dumps(data), encoding='utf8')
-    # time.sleep(20)
-    # req = Request(url, method='PUT', data=data_bytes, headers={'Content-Type': 'application/json', 'Authorization': 'Token 6a41bb1be6895ce456977bda97a17fe9'})
-    # with urlopen(req) as response:
-    #     print(response.read())
     print(store.text)
     return "OK"
 
@@ -98,12 +91,22 @@ def getInsuranceData():
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
     entities = list(recast_response['nlp']['entities'].keys())
+    all_entities = ['policy_number','premium','account_name',"expiration_date"]
     memory = recast_response['conversation']['memory']
     conversation_id = recast_response['conversation']['id']
+    response_message_obj = [{
+        "type": "text",
+        "content": "Here's what I found."
+    }]
+
+    for entity in entities[:]:
+        if entity not in all_entities:
+            entities.remove(entity)
+
     for entity in entities:
         response_message_obj = [{
             "type": "text",
-            "content": f"The {entity}  is {memory[entity]}"
+            "content": f"Your {entity}  is {memory[entity]}"
         }]
         resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                       headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
