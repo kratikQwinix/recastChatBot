@@ -7,6 +7,8 @@ import recastai
 import os
 import requests
 import pdb
+import datetime
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -68,7 +70,7 @@ def getInsuranceData():
                 "policy_number": insurance_data.policy_number,
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
-                "expiration_date": insurance_data.expiration_date,
+                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y'),
             },
         }
     
