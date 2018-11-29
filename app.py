@@ -73,7 +73,7 @@ def getInsuranceData():
         }
     
     requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-                                            data={data_to_store_in_memory}
+                                            data= data_to_store_in_memory
                                            )
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
