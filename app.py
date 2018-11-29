@@ -10,6 +10,7 @@ import pdb
 import datetime
 
 
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
@@ -29,7 +30,8 @@ RECAST_DEVELOPER_TOKEN = os.environ.get("API_DEVELOPER_TOKEN", default=None)
 
 @app.route('/')
 def hello():
-    return render_template('index.html')
+    insurances = session.query(Insurance).all()
+    return render_template('index.html', insurances=insurances)
 
 @app.route('/api/v1/getResponse', methods=['GET'])
 def getResponse():
@@ -57,10 +59,11 @@ def getInsuranceData():
         }]
         data_to_store_in_memory = {
             "memory": {
-                "policy_number": ""
+                "policy_number": {}
             }
         }
     else:
+        insurance_data = insurance_data.first()
         response_message_obj = [{
             "type": "text",
             "content":"Policy found. What would you like to know"
@@ -74,13 +77,13 @@ def getInsuranceData():
             },
         }
     
-    requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-                                            data={data_to_store_in_memory}
-                                           )
+    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    print(message_sent_response)
+    print(store)
     return "OK"
 
 # response = sendMessageToUser(insurance_data,conversation_id)
