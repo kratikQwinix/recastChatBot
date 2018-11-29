@@ -49,15 +49,15 @@ def getInsuranceData():
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number)
     print(recast_response)
     if insurance_data.count() == 0:
-        response_message_obj = {
+        response_message_obj = [{
             "type": "text",
             "content": "No policy found. Please enter valid policy number"
-        }
+        }]
     else:
-        response_message_obj = {
+        response_message_obj = [{
             "type": "text",
             "content":"Policy found. What would you like to know"
-        }
+        }]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
