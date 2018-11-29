@@ -30,7 +30,7 @@ RECAST_DEVELOPER_TOKEN = os.environ.get("API_DEVELOPER_TOKEN", default=None)
 
 @app.route('/')
 def hello():
-    insurances = session.query(Insurance).all()
+    insurances = session.query(Insurance).limit(10).all()
     return render_template('index.html', insurances=insurances)
 
 @app.route('/api/v1/getResponse', methods=['GET'])
@@ -85,8 +85,6 @@ def getInsuranceData():
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
 
-    import time
-    time.sleep(5)
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                             json= data_to_store_in_memory)
