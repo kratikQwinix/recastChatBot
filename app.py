@@ -96,7 +96,7 @@ def getInsuranceData():
 
 @app.route('/api/v1/getIndividualDetails', methods=['POST'])
 def get_policy_individual_details():
-    recast_response = json.loads(request.get_data())
+    recast_response = request.get_data()
     print(recast_response)
     return "OK"
     # policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
