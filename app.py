@@ -59,6 +59,7 @@ def getInsuranceData():
             }
         }
     else:
+        insurance_data = insurance_data.first()
         response_message_obj = [{
             "type": "text",
             "content":"Policy found. What would you like to know"
