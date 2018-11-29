@@ -96,53 +96,20 @@ def getInsuranceData():
 
 @app.route('/api/v1/getIndividualDetails', methods=['POST'])
 def get_policy_individual_details():
-    recast_response = request.get_data()
-    print(recast_response)
+    recast_response = json.loads(request.get_data())
+    entities = list(recast_response['nlp']['entities'].keys())
+    memory = recast_response['conversation']['memory']
+    conversation_id = recast_response['conversation']['id']
+    for entity in entities:
+        response_message_obj = [{
+            "type": "text",
+            "content": f"The {entity}  is {memory[entity]}"
+        }]
+        resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                      headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                      json={"messages": response_message_obj})
+        print(resp)
     return "OK"
-    # policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
-    # conversation_id = recast_response['conversation']['id']
-    # requested_detail = recast_response['nlp']['entities']
-    # for key, val in requested_detail.items():
-    #     requested_detail = key
-    #     value = "bar"
-    #     response_message_obj = [{
-    #         "type": "text",
-    #         "content": f"The {requested_detail}  is {value}"
-    #     }]
-    #     requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-    #                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                   json={"messages": response_message_obj})
-
-
-
-
-
-
-
-
-
-
-# response = sendMessageToUser(insurance_data,conversation_id)
-# def sendMessageToUser(data, convId):
-#     response_message_obj = [{
-#         "type": "text",
-#         "content": f"Your policy number is {data.policy_number}"
-#     },{
-#         "type": "text",
-#         "content": f"Your policy name is {data.account_name}"
-#     },{
-#         "type": "text",
-#         "content": f"Your policy premium is {data.premium}"
-#     },{
-#         "type": "text",
-#         "content": f"Your policy Expiration date is {data.expiration_date}"
-#     }]
-#     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{convId}/messages',
-#             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-#             json={"messages": response_message_obj}
-#     )
-#
-#     return "OK"
 
 
 if __name__ == '__main__':
