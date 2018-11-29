@@ -49,12 +49,11 @@ def getInsuranceData():
     conversation_id = recast_response['conversation']['id']
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number).first()
     response = sendMessageToUser(insurance_data,conversation_id)
-    print(response)
     return response
 
 
 def sendMessageToUser(data, convId):
-    responseMessageObj = [{
+    response_message_obj = [{
         "type": "text",
         "content": f"Your policy number is {data.policy_number}"
     },{
@@ -67,11 +66,14 @@ def sendMessageToUser(data, convId):
         "type": "text",
         "content": f"Your policy Expiration date is {data.expiration_date}"
     }]
-
+    print(response_message_obj)
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{convId}/messages',
             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-            json={"messages": responseMessageObj}
+            json={"messages": response_message_obj}
     )
+    print("------------------")
+    print(message_sent_response)
+
     return "OK"
 
 
