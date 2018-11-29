@@ -8,6 +8,7 @@ import os
 import requests
 import pdb
 import datetime
+import time
 from urllib.request import Request, urlopen
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -83,37 +84,39 @@ def getInsuranceData():
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
 
-    # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-    #                                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                                         json= data_to_store_in_memory)
-    url, data = f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}', {
-        "memory": data_to_store_in_memory}
-    data_bytes = bytes(json.dumps(data), encoding='utf8')
-    import time
     time.sleep(20)
-    req = Request(url, method='PUT', data=data_bytes, headers={'Content-Type': 'application/json',
-                                                                   'Authorization': 'Token 6a41bb1be6895ce456977bda97a17fe9'})
-    with urlopen(req) as response:
-        print(response.read())
+    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
+    # ----
+    # url, data = f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}', { "memory": data_to_store_in_memory}
+    # data_bytes = bytes(json.dumps(data), encoding='utf8')
+    # time.sleep(20)
+    # req = Request(url, method='PUT', data=data_bytes, headers={'Content-Type': 'application/json', 'Authorization': 'Token 6a41bb1be6895ce456977bda97a17fe9'})
+    # with urlopen(req) as response:
+    #     print(response.read())
+    print(store.text)
     return "OK"
 
 
 @app.route('/api/v1/getIndividualDetails', methods=['POST'])
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
-    policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
-    conversation_id = recast_response['conversation']['id']
-    requested_detail = recast_response['nlp']['entities']
-    for key, val in requested_detail.items():
-        requested_detail = key
-        value = "bar"
-        response_message_obj = [{
-            "type": "text",
-            "content": f"The {requested_detail}  is {value}"
-        }]
-        requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                      headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                      json={"messages": response_message_obj})
+    print(recast_response)
+    return "OK"
+    # policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
+    # conversation_id = recast_response['conversation']['id']
+    # requested_detail = recast_response['nlp']['entities']
+    # for key, val in requested_detail.items():
+    #     requested_detail = key
+    #     value = "bar"
+    #     response_message_obj = [{
+    #         "type": "text",
+    #         "content": f"The {requested_detail}  is {value}"
+    #     }]
+    #     requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+    #                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+    #                   json={"messages": response_message_obj})
 
 
 
