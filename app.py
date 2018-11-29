@@ -71,8 +71,8 @@ def getInsuranceData():
                 "policy_number": insurance_data.policy_number,
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
-                "expiration_date": insurance_data.expiration_date,
-            },
+                "expiration_date": insurance_data.expiration_date
+            }
         }
     
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
