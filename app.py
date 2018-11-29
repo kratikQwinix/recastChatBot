@@ -69,7 +69,7 @@ def getInsuranceData():
     #         "version": "2.12.0"
     #     }
     # }
-    print(request.get_data())
+    print(json.loads(request.get_data()))
 
     # conversationId = data["conversation"]["id"]
     # insuranceData = session.query(Insurance).filter_by(policy_number='EBU097711156').first()
