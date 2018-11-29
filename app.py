@@ -73,7 +73,7 @@ def getInsuranceData():
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    return message_sent_response
+    return "OK"
 
 # response = sendMessageToUser(insurance_data,conversation_id)
 # def sendMessageToUser(data, convId):
