@@ -65,9 +65,7 @@ def getInsuranceData():
             "type": "card",
             "content": {
               "title": "CARD_TITLE",
-              "title": "CARD_TITLE_1",
-              "subtitle": "CARD_SUBTITLE",
-              "subtitle": "CARD_SUBTITLE_1"
+              "subtitle": "CARD_SUBTITLE"
             }
           }]
         # response_message_obj = [{
