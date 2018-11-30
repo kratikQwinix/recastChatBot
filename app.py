@@ -73,7 +73,16 @@ def getInsuranceData():
                 "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
             }
         }
-        
+
+    response_message_obj = [{
+        "type": "text",
+        "content": "Give me a minute, I'm searching for your policy"
+    }]
+
+    message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                          json={"messages": response_message_obj})
+
     time.sleep(20)
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
