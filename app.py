@@ -65,7 +65,9 @@ def getInsuranceData():
             "type": "card",
             "content": {
               "title": "CARD_TITLE",
-              "subtitle": "CARD_SUBTITLE"
+              "title": "CARD_TITLE_1",
+              "subtitle": "CARD_SUBTITLE",
+              "subtitle": "CARD_SUBTITLE_1",
             }
           }]
         # response_message_obj = [{
@@ -86,9 +88,6 @@ def getInsuranceData():
         "content": "Give me a minute, I'm searching for your policy"
     }]
 
-    message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                                          json={"messages": placeholder})
 
     # time.sleep(20)
     # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
@@ -97,7 +96,7 @@ def getInsuranceData():
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    print(store.text)
+    # print(store.text)
     return "OK"
 
 
