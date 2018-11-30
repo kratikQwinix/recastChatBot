@@ -62,9 +62,19 @@ def getInsuranceData():
     else:
         insurance_data = insurance_data.first()
         response_message_obj = [{
-            "type": "text",
-            "content":"Policy found! What would you like to know about it?"
-        }]
+            "type": "card",
+            "content": {
+              "title": "CARD_TITLE",
+              "title": "CARD_TITLE_1",
+              "subtitle": "CARD_SUBTITLE",
+              "subtitle": "CARD_SUBTITLE_1",
+              # "imageUrl": "IMAGE_URL"
+            }
+          }]
+        # response_message_obj = [{
+        #     "type": "text",
+        #     "content":"Policy found! What would you like to know about it?"
+        # }]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
