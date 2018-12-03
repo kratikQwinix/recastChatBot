@@ -51,26 +51,23 @@ def get_insurance_data():
         }
     else:
         insurance_data = insurance_data.first()
-        # response_message_obj = [{
-        #     "type": "text",
-        #     "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
-        #    },{
-        #     "type": "text",
-        #     "content":"What else would you like to know? You can search for expiration date, status, policy type "
-        #    }
-        # ]
-        response_message_obj = [{
-            "type": "text",
-            "content": "The policy you entered wasn't found. Please enter a valid policy number."
-            },{
-            "type": "card",
-            "content": {
-                "title": "",
-                "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
-                "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-                "buttons": []
+        response_message_obj = [
+             {
+                 "type": "text",
+                 "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
+             },{
+                 "type": "card",
+                 "content": {
+                     "title": "",
+                     "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                     "imageUrl": "",
+                     "buttons": []
+                 }
+             },{
+                 "type": "text",
+                 "content":"What else would you like to know? You can search for expiration date, status and policy type "
              }
-           }]
+         ]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
@@ -88,7 +85,6 @@ def get_insurance_data():
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    print(message_sent_response.text)
     # time.sleep(20)
     # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
     #                                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
@@ -100,11 +96,8 @@ def get_insurance_data():
     return "OK"
 
 
-@app.route('/errors', methods=['POST'])
-def errors():
-  print(json.loads(request.get_data()))
-  # return jsonify(status=200)
-  return "ok"
+
+
 
 @app.route('/api/v1/get_individual_details', methods=['POST'])
 def get_policy_individual_details():
