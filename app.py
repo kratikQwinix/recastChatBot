@@ -165,6 +165,6 @@ def followup_questions():
                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                   json={"messages": response_message_obj})
     print(req.text)
-
+    return "Done"
 if __name__ == '__main__':
     app.run()
