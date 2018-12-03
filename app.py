@@ -54,18 +54,14 @@ def get_insurance_data():
         response_message_obj = [{
             "type": "text",
             "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
-           }, {
-            "type": "quickReplies",
+           },{
+            "type": "card",
             "content": {
-              "title": "TITLE",
-              "buttons": [
-                {
-                  "title": "BUTTON_TITLE",
-                  "value": "BUTTON_VALUE"
-                }
-              ]
-            }
-          },{
+                "subtitle": f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
+                "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
+                "buttons": []
+             }
+           },{
             "type": "text",
             "content":"What else would you like to know? You can search for expiration date, status, policy type "
            }
@@ -102,8 +98,7 @@ def get_insurance_data():
 @app.route('/errors', methods=['POST'])
 def errors():
   print(json.loads(request.get_data()))
-  # return jsonify(status=200)
-  return "ok"
+  return jsonify(status=200)
 
 @app.route('/api/v1/get_individual_details', methods=['POST'])
 def get_policy_individual_details():
