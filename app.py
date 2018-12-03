@@ -51,42 +51,22 @@ def get_insurance_data():
         }
     else:
         insurance_data = insurance_data.first()
+        # response_message_obj = [{
+        #     "type": "text",
+        #     "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
+        #    },{
+        #     "type": "text",
+        #     "content":"What else would you like to know? You can search for expiration date, status, policy type "
+        #    }
+        # ]
         response_message_obj = [{
-            "type": "text",
-            "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
-           }, {
-            "type": "quickReplies",
+            "type": "card",
             "content": {
-              "title": "TITLE",
-              "buttons": [
-                {
-                  "title": "BUTTON_TITLE",
-                  "value": "BUTTON_VALUE"
-                }
-              ]
-            }
-          },  {
-            "type": "buttons",
-            "content": {
-              "title": "BUTTON_TITLE",
-              "buttons": [
-                {
-                  "title": "BUTTON_TITLE",
-                  "type": "BUTTON_TYPE",
-                  "value": "BUTTON_VALUE"
-                }, {
-                  "title": "BUTTON_TITLE_2",
-                  "type": "BUTTON_TYPE",
-                  "value": "BUTTON_VALUE_2"
-                }
-              ]
-            }
-          },
-          {
-            "type": "text",
-            "content":"What else would you like to know? You can search for expiration date, status, policy type "
-           }
-        ]
+                "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
+                "buttons": []
+             }
+           }]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
