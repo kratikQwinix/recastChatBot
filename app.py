@@ -54,22 +54,22 @@ def get_insurance_data():
     else:
         insurance_data = insurance_data.first()
         response_message_obj = [
-             {
-                 "type": "text",
-                 "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
-             },{
-                 "type": "card",
-                 "content": {
-                     "title": "",
-                     "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
-                     "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
-                     "buttons": []
-                 }
-             },{
-                 "type": "text",
-                 "content":"What else would you like to know? You can search for expiration date, policy status, address, phone number and policy type."
-             }
-         ]
+            {
+                "type": "text",
+                "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
+            },{
+                "type": "card",
+                "content": {
+                    "title": "",
+                    "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                    "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
+                    "buttons": []
+                }
+            },{
+                "type": "text",
+                "content":"What else would you like to know? You can search for expiration date, policy status, address, phone number and policy type."
+            }
+        ]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
@@ -81,7 +81,7 @@ def get_insurance_data():
                 "user_insurance_address":insurance_data.address,
                 "user_phone_number":insurance_data.phone_number,
                 "plan":insurance_data.plan
-             }
+            }
         }
 
     placeholder = [{
@@ -94,22 +94,29 @@ def get_insurance_data():
                                           json={"messages": placeholder})
     time.sleep(20)
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                                            json= data_to_store_in_memory)
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json= data_to_store_in_memory)
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    print(store.text)
     return "OK"
 
 @app.route('/api/v1/get_individual_details', methods=['POST'])
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
     entities = list(recast_response['nlp']['entities'].keys())
-    print(f"List of entities {entities}")
     all_entities = ['policy_number','premium','account_name','expiration_date','policy_status',"user_insurance_type","user_insurance_address","user_phone_number","plan"]
     memory = recast_response['conversation']['memory']
     conversation_id = recast_response['conversation']['id']
+    entity_mapping = {"policy_number": "Policy Number",
+                      "account_name": "Account Name",
+                      "premium": "Premium",
+                      "expiration_date": "Expiration Date",
+                      "policy_status": "Policy Status",
+                      "user_insurance_type": "Insurance Type",
+                      "user_insurance_address": "Address",
+                      "user_phone_number": "Phone Number",
+                      "plan": "Plan"}
     response_message_obj = [{
         "type": "text",
         "content": "Here's what I found."
@@ -122,15 +129,13 @@ def get_policy_individual_details():
             entities.remove(entity)
 
     for entity in entities:
-        formatted_entity = entity.replace("_"," ")
         response_message_obj = [{
             "type": "text",
-            "content": f"Your {formatted_entity}  is {memory[entity]}"
+            "content": f"Your {entity_mapping[entity]}  is {memory[entity]}"
         }]
         resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                      headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                      json={"messages": response_message_obj})
-        print(resp)
+                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                             json={"messages": response_message_obj})
     return "OK"
 
 
@@ -164,8 +169,6 @@ def buy_assistance():
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": button_types})
-    print(resp)
-    print(resp.text)
     return "Ok"
 
 @app.route('/api/v1/buy_travel_insurance', methods=['POST'])
@@ -182,9 +185,8 @@ def buy_travel_insurance():
         }
     ]
     req = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                  headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                  json={"messages": response_message_obj})
-    print(req.text)
+                        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                        json={"messages": response_message_obj})
     return "Done"
 
 @app.route('/api/v1/get_best_plan', methods=['POST'])
