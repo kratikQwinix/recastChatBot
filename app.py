@@ -43,7 +43,7 @@ def get_insurance_data():
     policy_number = recast_response['nlp']['entities']['policy_number'][0]['value']
     conversation_id = recast_response['conversation']['id']
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number)
-    print(recast_response)
+    print(f"insurance data in db {insurance_data}")
     if insurance_data.count() == 0:
         response_message_obj = [{
             "type": "text",
@@ -68,7 +68,7 @@ def get_insurance_data():
                  }
              },{
                  "type": "text",
-                 "content":"What else would you like to know? You can search for expiration date, status and policy type "
+                 "content":"What else would you like to know? You can search for expiration date, policy status, address, phone number and policy type."
              }
          ]
         data_to_store_in_memory = {
@@ -76,8 +76,13 @@ def get_insurance_data():
                 "policy_number": insurance_data.policy_number,
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
-                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
-            }
+                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y'),
+                "policy_status": insurance_data.status,
+                "user_insurance_type":insurance_data.insurance_type,
+                "user_insurance_address":insurance_data.address,
+                "user_phone_number":insurance_data.phone_number,
+                "plan":insurance_data.plan
+             }
         }
 
     placeholder = [{
@@ -102,7 +107,8 @@ def get_insurance_data():
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
     entities = list(recast_response['nlp']['entities'].keys())
-    all_entities = ['policy_number','premium','account_name',"expiration_date"]
+    print(f"List of entities {entities}")
+    all_entities = ['policy_number','premium','account_name','expiration_date','policy_status',"user_insurance_type","user_insurance_address","user_phone_number","plan"]
     memory = recast_response['conversation']['memory']
     conversation_id = recast_response['conversation']['id']
     response_message_obj = [{
@@ -117,9 +123,10 @@ def get_policy_individual_details():
             entities.remove(entity)
 
     for entity in entities:
+        formatted_entity = entity.replace("_"," ")
         response_message_obj = [{
             "type": "text",
-            "content": f"Your {entity}  is {memory[entity]}"
+            "content": f"Your {formatted_entity}  is {memory[entity]}"
         }]
         resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                       headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
