@@ -34,7 +34,7 @@ def hello():
 
 
 @app.route('/api/v1/get_insurance_data', methods=['POST'])
-def getInsuranceData():
+def get_insurance_data():
     sampledata = {'nlp': {'uuid': 'cf771ba7-bc07-4520-8c1f-86f29c185d19', 'intents': [{'slug': 'insurancedetails', 'confidence': 0.99, 'description': None}], 'entities': {'policynumber': [{'value': '3123123', 'raw': '3123123', 'confidence': 0.87}]}, 'language': 'en', 'processing_language': 'en', 'version': '2.12.0-20a34c24', 'timestamp': '2018-11-29T06:12:23.139483+00:00', 'status': 200, 'source': '3123123', 'act': 'assert', 'type': None, 'sentiment': 'neutral'}, 'action_id': 'ed62dc85-d66f-4121-ac56-4034f95e1729', 'conversation': {'id': 'test-1543471909240', 'conversation_id': 'test-1543471909240', 'warning': 'The conversation_id field will be depreciated on January 1st 2018! Switch to using the id field instead', 'language': 'en', 'memory': {'policyNumber': {'value': '3123123', 'raw': '3123123', 'confidence': 0.87}}, 'skill_stack': ['askforinsurancenumber'], 'skill': 'askforinsurancenumber', 'skill_occurences': 2, 'participant_data': {}}}
     recast_response = json.loads(request.get_data())
     policy_number = recast_response['nlp']['entities']['policynumber'][0]['value']
@@ -51,10 +51,23 @@ def getInsuranceData():
         }
     else:
         insurance_data = insurance_data.first()
-        response_message_obj = [{
-            "type": "text",
-            "content":"Policy found! What would you like to know about it?"
-        }]
+        response_message_obj = [
+             {
+                 "type": "text",
+                 "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
+             },{
+                 "type": "card",
+                 "content": {
+                     "title": "",
+                     "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                     "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
+                     "buttons": []
+                 }
+             },{
+                 "type": "text",
+                 "content":"What else would you like to know? You can search for expiration date, status and policy type "
+             }
+         ]
         data_to_store_in_memory = {
             "memory" : {
                 "policy_number": insurance_data.policy_number,
@@ -72,7 +85,6 @@ def getInsuranceData():
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": placeholder})
-
     time.sleep(20)
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
                                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
@@ -82,6 +94,9 @@ def getInsuranceData():
                                           json={"messages": response_message_obj})
     print(store.text)
     return "OK"
+
+
+
 
 
 @app.route('/api/v1/get_individual_details', methods=['POST'])
