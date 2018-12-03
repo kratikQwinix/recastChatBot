@@ -60,6 +60,9 @@ def get_insurance_data():
         #    }
         # ]
         response_message_obj = [{
+            "type": "text",
+            "content": "The policy you entered wasn't found. Please enter a valid policy number."
+            },{
             "type": "card",
             "content": {
                 "title": "",
