@@ -128,6 +128,8 @@ def get_policy_individual_details():
         if entity not in all_entities:
             entities.remove(entity)
 
+    print(entities)
+
     for entity in entities:
         response_message_obj = [{
             "type": "text",
