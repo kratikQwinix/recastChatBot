@@ -10,6 +10,7 @@ import pdb
 import datetime
 import time
 from urllib.request import Request, urlopen
+import dateutil.parser
 from datetime import datetime
 
 app = Flask(__name__)
@@ -188,8 +189,7 @@ def buy_travel_insurance():
 def get_best_plan():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
-    date = datetime.strptime(recast_response['nlp']['entities']['datetime'][0]['iso'], "%Y-%m-%dT%H:%M:%S")
-    date = date.date()
+    date = dateutil.parser.parse(recast_response['nlp']['entities']['datetime'][0]['iso']).date()
     today = datetime.now().date()
     print(recast_response)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
