@@ -10,6 +10,8 @@ import pdb
 import datetime
 import time
 from urllib.request import Request, urlopen
+from datetime import datetime
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
@@ -164,7 +166,7 @@ def buy_assistance():
     return "Ok"
 
 @app.route('/api/v1/buy_travel_insurance', methods=['POST'])
-def followup_questions():
+def buy_travel_insurance():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
     response_message_obj = [{
@@ -173,7 +175,7 @@ def followup_questions():
     },
         {
             "type": "text",
-            "content": "At what number can I reach you?"
+            "content": "Please send me your Email Id. We'll send you the policy document on this email id."
         }
     ]
     req = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
@@ -181,5 +183,37 @@ def followup_questions():
                   json={"messages": response_message_obj})
     print(req.text)
     return "Done"
+
+@app.route('/api/v1/get_best_plan', methods=['POST'])
+def get_best_plan():
+    recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
+    date = datetime.strptime(recast_response['nlp']['entities']['datetime'][0]['iso'], "%Y-%m-%dT%H:%M:%SZ")
+    date = date.date()
+    today = datetime.now().date()
+    print(recast_response)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(date)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    number_of_days =  date - today
+    if number_of_days < 30:
+        response_message = [{
+            "type": "text",
+            "content": "Looking at all the information provided, I suggest you go for the 'basic' insurance plan"
+        }]
+    elif number_of_days > 30:
+        response_message = [{
+            "type": "text",
+            "content": "Looking at all the information provided, I suggest you go for the 'premium' insurance plan"
+        }]
+    message_sent_response = requests.post(
+        f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+        json={"messages": response_message})
+    print(message_sent_response)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print(message_sent_response.text)
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    return "Okay"
 if __name__ == '__main__':
     app.run()
