@@ -84,15 +84,15 @@ def get_insurance_data():
 
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                          json={"messages": placeholder})
+    time.sleep(20)
+    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
+    message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
-    # time.sleep(20)
-    # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-    #                                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                                         json= data_to_store_in_memory)
-    # message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-    #                                       headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                                       json={"messages": response_message_obj})
-    # print(store.text)
+    print(store.text)
     return "OK"
 
 
