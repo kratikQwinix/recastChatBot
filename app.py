@@ -134,16 +134,6 @@ def buy_assistance():
                     "title": "travel",
                     "type": "web_url",
                     "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
-                },
-                {
-                    "title": "vehicle",
-                    "type": "postback",
-                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
-                },
-                {
-                    "title": "health",
-                    "type": "postback",
-                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
                 }
             ]
         }
