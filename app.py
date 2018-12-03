@@ -75,8 +75,8 @@ def getInsuranceData():
 
     time.sleep(20)
     store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                         json= data_to_store_in_memory)
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
@@ -108,8 +108,8 @@ def get_policy_individual_details():
             "content": f"Your {entity}  is {memory[entity]}"
         }]
         resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                             headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                             json={"messages": response_message_obj})
+                      headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                      json={"messages": response_message_obj})
         print(resp)
     return "OK"
 
@@ -125,15 +125,22 @@ def buy_assistance():
     requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                   json={"messages": response_message_obj})
-    button_types ={
-        "type": "buttons",
+    button_types = {
+        "type": "quickReplies",
         "content": {
-            "title": "BUTTON_TITLE",
+            "title": "Insurance_Type",
             "buttons": [
                 {
-                    "title": "BUTTON_TITLE",
-                    "type": "postback",
-                    "value": "BUTTON_VALUE"
+                    "title": "travel",
+                    "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
+                },
+                {
+                    "title": "vehicle",
+                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
+                },
+                {
+                    "title": "health",
+                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
                 }
             ]
         }
