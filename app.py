@@ -151,6 +151,8 @@ def buy_assistance():
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": button_types})
+    print(resp)
+    print(resp.text)
     return "Ok"
 
 @app.route('/api/v1/buy_travel_insurance', methods=['POST'])
