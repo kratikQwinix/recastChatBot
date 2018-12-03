@@ -66,7 +66,7 @@ def get_insurance_data():
                  }
              },{
                  "type": "text",
-                 "content":"What else would you like to know? You can search for expiration date, status, address, phone number and policy type."
+                 "content":"What else would you like to know? You can search for expiration date, policy status, address, phone number and policy type."
              }
          ]
         data_to_store_in_memory = {
