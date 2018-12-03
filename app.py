@@ -56,7 +56,7 @@ def get_insurance_data():
             "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
            },{
             "type": "card",
-             "content": {
+            "content": {
                 "subtitle": f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
                 "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
                 "buttons": []
@@ -95,6 +95,11 @@ def get_insurance_data():
     return "OK"
 
 
+@app.route('/errors', methods=['POST'])
+def errors():
+  print(json.loads(request.get_data()))
+  return jsonify(status=200)
+
 @app.route('/api/v1/get_individual_details', methods=['POST'])
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
@@ -123,6 +128,9 @@ def get_policy_individual_details():
                       json={"messages": response_message_obj})
         print(resp)
     return "OK"
+
+
+
 
 
 @app.route('/api/v1/buy_insurance', methods=['POST'])
