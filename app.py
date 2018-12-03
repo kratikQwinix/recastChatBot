@@ -118,32 +118,25 @@ def get_policy_individual_details():
 def buy_assistance():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
-    response_message_obj = [{
-        "type": "text",
-        "content": "please select from the options below"
-    }]
-    requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                  headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                  json={"messages": response_message_obj})
     button_types = [{
         "type": "buttons",
         "content": {
-            "title": "Insurance_Type",
+            "title": "Please select from the options below",
             "buttons": [
                 {
                     "title": "travel",
-                    "type": "web_url",
-                    "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
+                    "type": "postback",
+                    "value": "travel"
                 },
                 {
                     "title": "vehicle",
                     "type": "postback",
-                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
+                    "value": "vehicle"
                 },
                 {
                     "title": "health",
                     "type": "postback",
-                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
+                    "value": "health"
                 }
             ]
         }
