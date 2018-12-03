@@ -74,6 +74,7 @@ def get_insurance_data():
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
                 "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
+                "status": insurance_data.status
             }
         }
 
@@ -103,7 +104,9 @@ def get_insurance_data():
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
     entities = list(recast_response['nlp']['entities'].keys())
-    all_entities = ['policy_number','premium','account_name',"expiration_date"]
+    print(entities)
+    print("---------------------")
+    all_entities = ['policy_number','premium','account_name','expiration_date','status']
     memory = recast_response['conversation']['memory']
     conversation_id = recast_response['conversation']['id']
     response_message_obj = [{
