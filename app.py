@@ -129,33 +129,57 @@ def get_policy_individual_details():
     return "OK"
 
 
-
-
-
-@app.route('/api/v1/buy_insurance', methods=['POST'])
+@app.route('/api/v1/select_insurance', methods=['POST'])
 def buy_assistance():
-    button_types = {
-    "type": "buttons",
-    "content": {
-      "title": "Insurance_Type",
-      "buttons": [
+    recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
+    button_types = [{
+        "type": "buttons",
+        "content": {
+            "title": "Please select from the options below",
+            "buttons": [
+                {
+                    "title": "travel",
+                    "type": "postback",
+                    "value": "travel"
+                },
+                {
+                    "title": "vehicle",
+                    "type": "postback",
+                    "value": "vehicle"
+                },
+                {
+                    "title": "health",
+                    "type": "postback",
+                    "value": "health"
+                }
+            ]
+        }
+    }]
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": button_types})
+    print(resp)
+    print(resp.text)
+    return "Ok"
+
+@app.route('/api/v1/buy_travel_insurance', methods=['POST'])
+def followup_questions():
+    recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
+    response_message_obj = [{
+        "type": "text",
+        "content": "Let's do it. First, we need to ask you few questions."
+    },
         {
-          "title": "travel",
-          "type": "button",
-          "value": "travel"
-        },
-          {
-              "title": "vehicle",
-              "type": "button",
-              "value": "vehicle"
-          },
-          {
-              "title": "health",
-              "type": "button",
-              "value": "health"
-          }
-      ]
-    }
-  }
+            "type": "text",
+            "content": "At what number can I reach you?"
+        }
+    ]
+    requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                  headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                  json={"messages": response_message_obj})
+
+
 if __name__ == '__main__':
     app.run()
