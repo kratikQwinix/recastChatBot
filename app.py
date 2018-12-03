@@ -72,9 +72,7 @@ def get_insurance_data():
     "type": "card",
     "content": {
           "title": "CARD_TITLE",
-          "title": "CARD_TITLE_1",
           "subtitle": "CARD_SUBTITLE",
-          "subtitle": "CARD_SUBTITLE_2",
           "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg"
         }
     }]
