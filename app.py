@@ -58,9 +58,8 @@ def get_insurance_data():
             "type": "card",
              "content": {
                 "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-                "subtitle": f"<b>Account Name :</b> {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
-                "buttons": [
-              ]
+                 "subtitle": f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
+                "buttons": []
              }
            },{
             "type": "text",
@@ -80,7 +79,7 @@ def get_insurance_data():
         "type": "text",
         "content": "Give me a minute, I'm searching for your policy"
     }]
-    
+
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": response_message_obj})
