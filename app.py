@@ -73,7 +73,7 @@ def get_insurance_data():
                 "policy_number": insurance_data.policy_number,
                 "account_name": insurance_data.account_name,
                 "premium": insurance_data.premium,
-                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
+                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y'),
                 "status": insurance_data.status
             }
         }
