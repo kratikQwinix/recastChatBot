@@ -126,28 +126,28 @@ def buy_assistance():
                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                   json={"messages": response_message_obj})
     button_types = {
-    "type": "buttons",
-    "content": {
-      "title": "Insurance_Type",
-      "buttons": [
-        {
-          "title": "travel",
-          "type": "web_url",
-          "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
-        },
-          {
-              "title": "vehicle",
-              "type": "postback",
-              "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
-          },
-          {
-              "title": "health",
-              "type": "postback",
-              "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
-          }
-      ]
+        "type": "buttons",
+        "content": {
+            "title": "Insurance_Type",
+            "buttons": [
+                {
+                    "title": "travel",
+                    "type": "web_url",
+                    "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
+                },
+                {
+                    "title": "vehicle",
+                    "type": "postback",
+                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
+                },
+                {
+                    "title": "health",
+                    "type": "postback",
+                    "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
+                }
+            ]
+        }
     }
-  }
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": button_types})
