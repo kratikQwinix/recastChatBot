@@ -55,13 +55,6 @@ def get_insurance_data():
             "type": "text",
             "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
            },{
-            "type": "card",
-            "content": {
-                "subtitle": f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
-                "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-                "buttons": []
-             }
-           },{
             "type": "text",
             "content":"What else would you like to know? You can search for expiration date, status, policy type "
            }
