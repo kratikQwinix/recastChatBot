@@ -41,47 +41,49 @@ def get_insurance_data():
     conversation_id = recast_response['conversation']['id']
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number)
     print(recast_response)
-    # if insurance_data.count() == 0:
-    #     response_message_obj = [{
-    #         "type": "text",
-    #         "content": "The policy you entered wasn't found. Please enter a valid policy number."
-    #     }]
-    #     data_to_store_in_memory = {
-    #         "memory": {}
-    #     }
-    # else:
-    #     insurance_data = insurance_data.first()
-    #     response_message_obj = [{
-    #         "type": "text",
-    #         "content":"Policy found! What would you like to know about it?"
-    #     }]
-    #     data_to_store_in_memory = {
-    #         "memory" : {
-    #             "policy_number": insurance_data.policy_number,
-    #             "account_name": insurance_data.account_name,
-    #             "premium": insurance_data.premium,
-    #             "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
-    #         }
-    #     }
+    if insurance_data.count() == 0:
+        response_message_obj = [{
+            "type": "text",
+            "content": "The policy you entered wasn't found. Please enter a valid policy number."
+        }]
+        data_to_store_in_memory = {
+            "memory": {}
+        }
+    else:
+        insurance_data = insurance_data.first()
+        response_message_obj = [{
+            "type": "text",
+            "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
+           },{
+            "type": "card",
+             "content": {
+                "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
+                "subtitle": f"<b>Account Name :</b> {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
+                "buttons": [
+              ]
+             }
+           },{
+            "type": "text",
+            "content":"What else would you like to know? You can search for expiration date, status, policy type "
+           }
+        ]
+        data_to_store_in_memory = {
+            "memory" : {
+                "policy_number": insurance_data.policy_number,
+                "account_name": insurance_data.account_name,
+                "premium": insurance_data.premium,
+                "expiration_date": insurance_data.expiration_date.strftime('%d-%m-%Y')
+            }
+        }
 
     placeholder = [{
         "type": "text",
         "content": "Give me a minute, I'm searching for your policy"
     }]
-    placeholder = [{
-    "type": "card",
-    "content": {
-          "title": "CARD_TITLE",
-          "subtitle": "CARD_SUBTITLE \n CARD_SUBTITLE_1",
-          "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-          "buttons": [
-          ]
-        }
-    }]
-
+    
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                                          json={"messages": placeholder})
+                                          json={"messages": response_message_obj})
 
     # time.sleep(20)
     # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
