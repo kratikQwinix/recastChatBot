@@ -65,7 +65,24 @@ def get_insurance_data():
                 }
               ]
             }
-          },{
+          },  {
+            "type": "buttons",
+            "content": {
+              "title": "BUTTON_TITLE",
+              "buttons": [
+                {
+                  "title": "BUTTON_TITLE",
+                  "type": "BUTTON_TYPE",
+                  "value": "BUTTON_VALUE"
+                }, {
+                  "title": "BUTTON_TITLE_2",
+                  "type": "BUTTON_TYPE",
+                  "value": "BUTTON_VALUE_2"
+                }
+              ]
+            }
+          },
+          {
             "type": "text",
             "content":"What else would you like to know? You can search for expiration date, status, policy type "
            }
