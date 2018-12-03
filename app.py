@@ -161,10 +161,10 @@ def followup_questions():
             "content": "At what number can I reach you?"
         }
     ]
-    requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+    req = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                   headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                   json={"messages": response_message_obj})
-
+    print(req.text)
 
 if __name__ == '__main__':
     app.run()
