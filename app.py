@@ -125,9 +125,10 @@ def get_policy_individual_details():
             entities.remove(entity)
 
     for entity in entities:
+        formatted_entity = entity.replace("_"," ")
         response_message_obj = [{
             "type": "text",
-            "content": f"Your {entity}  is {memory[entity]}"
+            "content": f"Your {formatted_entity}  is {memory[entity]}"
         }]
         resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                       headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
