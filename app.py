@@ -123,17 +123,17 @@ def buy_assistance():
       "buttons": [
         {
           "title": "travel",
-          "type": "button",
+          "type": "postback",
           "value": "travel"
         },
           {
               "title": "vehicle",
-              "type": "button",
+              "type": "postback",
               "value": "vehicle"
           },
           {
               "title": "health",
-              "type": "button",
+              "type": "postback",
               "value": "health"
           }
       ]
