@@ -60,7 +60,7 @@ def get_insurance_data():
                  "content": {
                      "title": "",
                      "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
-                     "imageUrl": "",
+                     "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
                      "buttons": []
                  }
              },{
