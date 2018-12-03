@@ -114,8 +114,15 @@ def get_policy_individual_details():
     return "OK"
 
 
-@app.route('/api/v1/buy_insurance', methods=['POST'])
+@app.route('/api/v1/select_insurance', methods=['POST'])
 def buy_assistance():
+    response_message_obj = [{
+        "type": "text",
+        "content": "please select from the options below"
+    }]
+    requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                  headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                  json={"messages": response_message_obj})
     button_types = {
     "type": "buttons",
     "content": {
@@ -123,21 +130,42 @@ def buy_assistance():
       "buttons": [
         {
           "title": "travel",
-          "type": "postback",
-          "value": "travel"
+          "type": "web_url",
+          "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
         },
           {
               "title": "vehicle",
               "type": "postback",
-              "value": "vehicle"
+              "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
           },
           {
               "title": "health",
               "type": "postback",
-              "value": "health"
+              "value": "Sorry, vehicle insurance is not supported now, you will be able to buy them shortly"
           }
       ]
     }
   }
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": button_types})
+    return "Ok"
+
+@app.route('/api/v1/buy_travel_insurance', methods=['POST'])
+def followup_questions():
+    response_message_obj = [{
+        "type": "text",
+        "content": "Let's do it. First, we need to ask you few questions."
+    },
+        {
+            "type": "text",
+            "content": "At what number can I reach you?"
+        }
+    ]
+    requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                  headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                  json={"messages": response_message_obj})
+
+
 if __name__ == '__main__':
     app.run()
