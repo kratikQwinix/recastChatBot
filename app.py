@@ -51,6 +51,7 @@ def get_insurance_data():
         }
     else:
         insurance_data = insurance_data.first()
+        # f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}"
         response_message_obj = [{
             "type": "text",
             "content":f"Policy with number {insurance_data.policy_number} found! Here are the details"
@@ -58,7 +59,7 @@ def get_insurance_data():
             "type": "card",
              "content": {
                 "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-                 "subtitle": f"Account Name : {insurance_data.account_name}  \n Premium :{insurance_data.premium}",
+                 "subtitle": insurance_data.policy_number,
                 "buttons": []
              }
            },{
