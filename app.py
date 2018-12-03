@@ -188,7 +188,7 @@ def buy_travel_insurance():
 def get_best_plan():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
-    date = datetime.strptime(recast_response['nlp']['entities']['datetime'][0]['iso'], "%Y-%m-%dT%H:%M:%SZ")
+    date = datetime.strptime(recast_response['nlp']['entities']['datetime'][0]['iso'], "%Y-%m-%dT%H:%M:%S")
     date = date.date()
     today = datetime.now().date()
     print(recast_response)
