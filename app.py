@@ -62,7 +62,7 @@ def get_insurance_data():
         response_message_obj = [{
             "type": "card",
             "content": {
-                "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                "subtitle": "foo",
                 "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
                 "buttons": []
              }
