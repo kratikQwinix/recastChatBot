@@ -132,7 +132,7 @@ def buy_assistance():
             "buttons": [
                 {
                     "title": "BUTTON_TITLE",
-                    "type": "text",
+                    "type": "postback",
                     "value": "BUTTON_VALUE"
                 }
             ]
