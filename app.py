@@ -195,7 +195,7 @@ def get_best_plan():
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print(date)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    number_of_days =  date - today
+    number_of_days = (date - today).days
     if number_of_days < 30:
         response_message = [{
             "type": "text",
