@@ -64,38 +64,23 @@ def get_insurance_data():
             }
         }
 
-    # placeholder = [{
-    #     "type": "text",
-    #     "content": "Give me a minute, I'm searching for your policy"
-    # }]
     placeholder = [{
-    "type": "card",
-    "content": {
-      "title": "CARD_TITLE",
-      "subtitle": "CARD_SUBTITLE",
-      "imageUrl": "https://cdn.recast.ai/website/bot-connector/recast-ai-bc-cards.svg",
-      "buttons": [
-            {
-                "title": "BUTTON_TITLE",
-                "type": "BUTTON_TYPE",
-                "value": "BUTTON_VALUE"
-            }
-        ]
-      }
+        "type": "text",
+        "content": "Give me a minute, I'm searching for your policy"
     }]
 
     message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                                           headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                                           json={"messages": placeholder})
 
-    # time.sleep(20)
-    # store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
-    #                                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                                         json= data_to_store_in_memory)
-    # message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-    #                                       headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-    #                                       json={"messages": response_message_obj})
-    # print(store.text)
+    time.sleep(20)
+    store = requests.put(f'https://api.recast.ai/build/v1/users/kratiknayak/bots/insurance/versions/v1/builder/conversation_states/{conversation_id}',
+                                            headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                            json= data_to_store_in_memory)
+    message_sent_response = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                                          json={"messages": response_message_obj})
+    print(store.text)
     return "OK"
 
 
