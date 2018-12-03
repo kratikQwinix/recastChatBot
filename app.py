@@ -116,6 +116,7 @@ def get_policy_individual_details():
 
 @app.route('/api/v1/select_insurance', methods=['POST'])
 def buy_assistance():
+    conversation_id = recast_response['conversation']['id']
     response_message_obj = [{
         "type": "text",
         "content": "please select from the options below"
@@ -153,6 +154,7 @@ def buy_assistance():
 
 @app.route('/api/v1/buy_travel_insurance', methods=['POST'])
 def followup_questions():
+    conversation_id = recast_response['conversation']['id']
     response_message_obj = [{
         "type": "text",
         "content": "Let's do it. First, we need to ask you few questions."
