@@ -43,7 +43,6 @@ def get_insurance_data():
     policy_number = recast_response['nlp']['entities']['policy_number'][0]['value']
     conversation_id = recast_response['conversation']['id']
     insurance_data = session.query(Insurance).filter_by(policy_number=policy_number)
-    print(f"insurance data in db {insurance_data}")
     if insurance_data.count() == 0:
         response_message_obj = [{
             "type": "text",
