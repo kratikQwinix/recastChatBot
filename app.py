@@ -132,7 +132,7 @@ def buy_assistance():
             "buttons": [
                 {
                     "title": "travel",
-                    "type": "web_url",
+                    "type": "text",
                     "value": "https://protected-beyond-91709.herokuapp.com/api/v1/buy_travel_insurance"
                 }
             ]
