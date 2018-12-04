@@ -22,7 +22,6 @@ ul li {
 }
 .pricing-divider {
     border-radius: 20px;
-    background: #C64545;
     padding: 1em 0 4em;
     position: relative;
 }
@@ -32,7 +31,7 @@ ul li {
 .green .pricing-divider {
     background: #1AA85C; 
 }
-.red b {
+.blue b {
     color:#C64545
 }
 .blue b {
@@ -53,11 +52,19 @@ ul li {
 	transition: transform 0.5s;
 }
 .btn-custom  {
-    background:#C64545; color:#fff; border-radius:20px
+    background:#2D5772;
+    color:#fff;
+    border-radius:20px
 }
 
 .img-float {
-    width:50px; position:absolute;top:-3.5rem;right:1rem
+    width:50px;
+    position:absolute;
+    top:-3.5rem;
+    right:1rem
+}
+.card-body{
+    border-radius:0 0 20px 20px;
 }
 
 .princing-item {
@@ -75,7 +82,12 @@ ul li {
     -webkit-transform: translate3d(-15px, 0, 0);
     transform: translate3d(-15px, 0, 0);
 }
-
+.justify-content-center{
+    justify-content: center !important;
+}
+.white-space-pre{
+        white-space: pre-line !important;
+    }
 header {
 	background: #563d7c;
 	padding: 2em 1em;
@@ -84,15 +96,20 @@ header {
 }
 </style>
 
-<header role="banner">
-    <h1>Insurance Domain</h1>
-</header>
 
 <body>
-    <div class="container-fluid bg-gradient p-5">
-        <div class="row m-auto text-center w-75">
+<nav class="navbar  navbar-expand-lg navbar-dark bg-dark ">
+      <div class="container">
+        <a class="navbar-brand" href="index.html"><img src="../static/logo.png" alt="Logo"></a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid bg-gradient">
+        <div class="row m-auto text-center w-75 justify-content-center">
             {% for insurance in insurances %}
-            <div class="col-4 princing-item red">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 princing-item blue">
                 <div class="pricing-divider ">
                     <h3 class="text-light">{{insurance.account_name}}</h3>
                     <h4 class="my-0 display-2 text-light font-weight-normal mb-3"><span class="h5">$</span><span class="h5">{{insurance.premium}}</span><span
@@ -120,7 +137,7 @@ header {
                         <li><b>Expiration Date: </b>{{insurance.expiration_date.strftime('%Y-%m-%d')}}</li>
                         <li><b>Status: </b>{{insurance.status}}</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block  btn-custom">Click to know more</button>
+                    <button type="button" class="btn btn-lg btn-block  btn-custom white-space-pre">Click to know more</button>
                 </div>
             </div>
             {% endfor %}
