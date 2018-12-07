@@ -187,9 +187,9 @@ def show_policies():
         term = 10
     elif str_term == "15-years":
         term = 15
-
+    insurances_to_show = []
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
-    insurances_to_show = create_carousel(insurance_data, term)
+    insurances_to_show.append(create_carousel(insurance_data, term))
     print(insurances_to_show)
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
@@ -211,14 +211,7 @@ def create_carousel(insurance_data,term):
         plans.append(plan)
     list_of_plans = {
         "type": "carousel",
-        "content": [
-            {
-                "title": f"Policy {i}",
-                "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
-                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
-                "buttons": []
-            }
-        ]
+        "content": plans
     }
     return list_of_plans
 
