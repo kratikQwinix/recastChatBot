@@ -191,6 +191,7 @@ def show_policies():
 
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
     insurances_to_show = create_carousel(insurance_data, term)
+    print(insurances_to_show)
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": insurances_to_show})
@@ -201,10 +202,6 @@ def show_policies():
 def create_carousel(insurance_data,term):
     plans = []
     for i, insurance in enumerate(insurance_data, start=1):
-        print(i)
-        print(insurance)
-        print(term)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         sum_assured = int(insurance.premium) * int(term)
         plan = {
                 "title": f"Policy {i}",
