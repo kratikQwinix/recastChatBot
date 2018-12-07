@@ -30,6 +30,7 @@ session = Session(engine)
 RECAST_REQUEST_TOKEN = os.environ.get("API_REQUEST_TOKEN", default=None)
 RECAST_DEVELOPER_TOKEN = os.environ.get("API_DEVELOPER_TOKEN", default=None)
 
+
 @app.route('/')
 def hello():
     insurances = session.query(Insurance).limit(10).all()
@@ -101,6 +102,7 @@ def get_insurance_data():
                                           json={"messages": response_message_obj})
     return "OK"
 
+
 @app.route('/api/v1/get_individual_details', methods=['POST'])
 def get_policy_individual_details():
     recast_response = json.loads(request.get_data())
@@ -139,9 +141,8 @@ def get_policy_individual_details():
     return "OK"
 
 
-
 @app.route('/api/v1/select_insurance', methods=['POST'])
-def buy_assistance_1():
+def buy_assistance():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
     button_types = [{
@@ -173,46 +174,45 @@ def buy_assistance_1():
     return "Ok"
 
 
+@app.route('/api/v1/show_policies', methods=['POST'])
+def show_policies():
+    recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
+    memory = recast_response['conversation']['memory']
+    age = memory["age"]["raw"]
+    term = recast_response["nlp"]["entities"]["term"]["raw"]
+    if term == "5 years":
+        term = 5
+    elif term == "10 years":
+        term = 10
+    elif term == "15 years":
+        term = 15
+
+    insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
+    insurances_to_show = create_carousel(insurance_data, term)
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": insurances_to_show})
+    print(resp.text)
+    return "Okay"
 
 
-def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
+def create_carousel(insurance_data,term):
+    plans = []
+    for i, insurance in enumerate(insurance_data,start=1):
+        sum_assured = insurance_data.premium * term
+        plan = {
+                "title": f"Policy {i}",
+                "subtitle": f"Premium: {insurance_data.premium}, Sum assured: {sum_assured}",
+                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+                "buttons": []
+            }
+        plans.append(plan)
     list_of_plans = {
         "type": "carousel",
-        "content": [
-            {
-                "title": "Policy 1",
-                "subtitle": f"Premium: {plan_1}, Sum assured: {sum_assured}, Term: {term}",
-                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
-                "buttons": [{
-                    "title": "Click here to buy",
-                    "type": "web_url",
-                    "value": "#"
-                }]
-            },
-            {
-                "title": "Policy 2",
-                "subtitle": f"Premium: {plan_2}, Sum assured: {sum_assured},Term: {term}",
-                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
-                "buttons": [{
-                    "title": "Click here to buy",
-                    "type": "web_url",
-                    "value": "#"
-                }]
-            },
-            {
-                "title": "Policy 3",
-                "subtitle": f"Premium: {plan_3}, Sum assured: {sum_assured}, Term: {term}",
-                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
-                "buttons": [{
-                    "title": "Click here to buy",
-                    "type": "web_url",
-                    "value": "#"
-                }]
-            }
-        ]
+        "content": plans
     }
-    return  list_of_plans
-
+    return list_of_plans
 
 if __name__ == '__main__':
     app.run()
