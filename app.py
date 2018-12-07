@@ -181,11 +181,12 @@ def show_policies():
     memory = recast_response['conversation']['memory']
     age = memory["age"]["raw"]
     str_term = recast_response["nlp"]["entities"]["term"][0]["raw"]
-    if str_term == "5 years":
+    print(str_term)
+    if str_term == "5-years":
         term = 5
-    elif str_term == "10 years":
+    elif str_term == "10-years":
         term = 10
-    elif str_term == "15 years":
+    elif str_term == "15-years":
         term = 15
 
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
