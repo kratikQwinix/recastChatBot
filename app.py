@@ -203,20 +203,22 @@ def create_carousel(insurance_data,term):
     for i, insurance in enumerate(insurance_data, start=1):
         sum_assured = int(insurance.premium) * int(term)
         plan = {
+            "title": f"Policy {i}",
+            "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
+            "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+            "buttons": []
+        }
+        plans.append(plan)
+    list_of_plans = {
+        "type": "carousel",
+        "content": [
+            {
                 "title": f"Policy {i}",
                 "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
                 "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
                 "buttons": []
             }
-        plans.append(plan)
-    list_of_plans = {
-        "type": "carousel",
-        "content": [{
-                "title": f"Policy {i}",
-                "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
-                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
-                "buttons": []
-            }]
+        ]
     }
     return list_of_plans
 
