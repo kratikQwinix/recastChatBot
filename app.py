@@ -187,13 +187,30 @@ def show_policies():
         term = 10
     elif str_term == "15-years":
         term = 15
-    insurances_to_show = []
+    response_message_obj = [{
+        "type": "text",
+        "content": "Here are some plans I found that you might like."
+    }]
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
-    insurances_to_show.append(create_carousel(insurance_data, term))
-    print(insurances_to_show)
+    response_message_obj.append(create_carousel(insurance_data, term))
+
+    see_more = {
+        "type": "buttons",
+        "content": {
+            "title": "",
+            "buttons": [
+                {
+                    "title": "See more like this",
+                    "type": "web_url",
+                    "value": f"https://protected-beyond-91709.herokuapp.com/api/v1/search?age={age}&term={term}"
+                }
+            ]
+        }
+    }
+    response_message_obj.append(see_more)
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                         json={"messages": insurances_to_show})
+                         json={"messages": response_message_obj})
     print(resp.text)
     return "Okay"
 
@@ -204,7 +221,7 @@ def create_carousel(insurance_data,term):
         sum_assured = int(insurance.premium) * int(term)
         plan = {
             "title": f"Policy {i}",
-            "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
+            "subtitle": f"Premium: ${insurance.premium}/mo, Sum assured: ${float(sum_assured)}/yo",
             "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
             "buttons": []
         }
