@@ -197,10 +197,10 @@ def show_policies():
     see_more = {
         "type": "buttons",
         "content": {
-            "title": "",
+            "title": "To see more like this",
             "buttons": [
                 {
-                    "title": "See more like this",
+                    "title": "Click here",
                     "type": "web_url",
                     "value": f"https://protected-beyond-91709.herokuapp.com/api/v1/search?age={age}&term={term}"
                 }
