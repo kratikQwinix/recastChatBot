@@ -227,8 +227,9 @@ def create_carousel(insurance_data,term,number_of_family_members):
     for i, insurance in enumerate(insurance_data, start=1):
 
         if number_of_family_members is not None:
-            sum_assured = int(insurance.premium) * int(term) * number_of_family_members
-            premium = insurance.premium * 4
+            print(number_of_family_members, term, insurance.premium)
+            sum_assured = int(insurance.premium) * int(term) * int(number_of_family_members)
+            premium = insurance.premium * int(number_of_family_members)
         else:
             sum_assured = int(insurance.premium) * int(term)
             premium = insurance.premium
