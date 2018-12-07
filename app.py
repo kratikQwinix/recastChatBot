@@ -61,7 +61,7 @@ def get_insurance_data():
                 "type": "card",
                 "content": {
                     "title": "",
-                    "subtitle": f"Account Name : {insurance_data.account_name} \n Premium :{insurance_data.premium}",
+                    "subtitle": f"Account Name : {insurance_data.account_name} \n Premium : {insurance_data.premium}",
                     "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
                     "buttons": []
                 }
@@ -245,5 +245,17 @@ def get_best_plan():
         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
         json={"messages": response_message})
     return "Okay"
+
+@app.route('/api/v1/get_best_policies', methods=['POST'])
+def get_best_healty_policy():
+    recast_response = json.loads(request.get_data())
+    memory = recast_response['conversation']['memory']
+
+    print("---------------------------")
+    print(memory)
+    print("---------------------------")
+
+    return "Ok"
+
 if __name__ == '__main__':
     app.run()
