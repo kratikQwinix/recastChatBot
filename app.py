@@ -180,12 +180,12 @@ def show_policies():
     conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
     age = memory["age"]["raw"]
-    term = recast_response["nlp"]["entities"]["term"][0]["raw"]
-    if term == "5 years":
+    str_term = recast_response["nlp"]["entities"]["term"][0]["raw"]
+    if str_term == "5 years":
         term = 5
-    elif term == "10 years":
+    elif str_term == "10 years":
         term = 10
-    elif term == "15 years":
+    elif str_term == "15 years":
         term = 15
 
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
@@ -199,8 +199,12 @@ def show_policies():
 
 def create_carousel(insurance_data,term):
     plans = []
-    for i, insurance in enumerate(insurance_data,start=1):
-        sum_assured = insurance.premium * term
+    for i, insurance in enumerate(insurance_data, start=1):
+        print(i)
+        print(insurance)
+        print(term)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        sum_assured = int(insurance.premium) * int(term)
         plan = {
                 "title": f"Policy {i}",
                 "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
