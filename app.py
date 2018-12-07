@@ -257,13 +257,13 @@ def get_best_healty_policy():
         "type": "text",
         "content": "According to the date you've provided, here are some plans you could go for."
     }]
-    if age == "20-40" and salary== ">$5000":
+    if age == "20-40" and salary== "more_than_5000":
         carousle_items = create_carousel("$80","$100","$120","$10000","10 years")
-    elif age == "20-40" and salary == "<$5000":
+    elif age == "20-40" and salary == "less_than_5000":
         carousle_items = create_carousel("$40", "$60", "$80","$8000","10 years")
-    elif age == "40-60" and salary == "<$5000":
+    elif age == "40-60" and salary == "less_than_5000":
         carousle_items = create_carousel("$120", "$140", "$160","$8000","15 years")
-    elif age == "40-60" and salary == ">$5000":
+    elif age == "40-60" and salary == "more_than_5000":
         carousle_items = create_carousel("$200", "$220", "$250","$10000","15 years")
 
     response_message_obj.append(carousle_items)
