@@ -252,7 +252,7 @@ def get_best_healty_policy():
     conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
     age = memory['age']['value']
-    salary = memory['salary']['value']
+    salary = recast_response['nlp']['entities']['salary'][0]['value']
     response_message_obj = [{
         "type": "text",
         "content": "According to the date you've provided, here are some plans you could go for."
