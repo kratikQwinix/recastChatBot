@@ -281,24 +281,33 @@ def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
         "content": [
             {
                 "title": "Policy 1",
-                "subtitle": f"Premium per month: {plan_1}     Sum assured: {sum_assured}          Term: {term}",
-                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/"
-                            "company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
-                "buttons": []
+                "subtitle": f"Premium: {plan_1}, Sum assured: {sum_assured}, Term: {term}",
+                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+                "buttons": [{
+                    "title": "Click here to buy",
+                    "type": "link",
+                    "value": "#"
+                }]
             },
             {
                 "title": "Policy 2",
-                "subtitle": f"Premium per month: {plan_2}     Sum assured: {sum_assured}          Term: {term}",
-                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/"
-                            "company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
-                "buttons": []
+                "subtitle": f"Premium: {plan_2}, Sum assured: {sum_assured},Term: {term}",
+                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+                "buttons": [{
+                    "title": "Click here to buy",
+                    "type": "links",
+                    "value": "#"
+                }]
             },
             {
                 "title": "Policy 3",
-                "subtitle": f"Premium per month: {plan_3}     Sum assured: {sum_assured}          Term: {term}",
-                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/"
-                            "company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
-                "buttons": []
+                "subtitle": f"Premium: {plan_3}, Sum assured: {sum_assured}, Term: {term}",
+                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+                "buttons": [{
+                    "title": "Click here to buy",
+                    "type": "link",
+                    "value": "#"
+                }]
             }
         ]
     }
