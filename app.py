@@ -179,8 +179,11 @@ def show_policies():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
+    number_of_family_members = None
     age = memory["age"]["raw"]
     str_term = recast_response["nlp"]["entities"]["term"][0]["raw"]
+    if "family_members" in memory.keys():
+        number_of_family_members = memory["family_members"]["raw"]
     if str_term == "5-years":
         term = 5
     elif str_term == "10-years":
@@ -192,7 +195,7 @@ def show_policies():
         "content": "Here are some plans I found that you might like."
     }]
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
-    response_message_obj.append(create_carousel(insurance_data, term))
+    response_message_obj.append(create_carousel(insurance_data, term,number_of_family_members))
 
     see_more = [{
         "type": "buttons",
@@ -218,13 +221,20 @@ def show_policies():
     return "Okay"
 
 
-def create_carousel(insurance_data,term):
+def create_carousel(insurance_data,term,number_of_family_members):
     plans = []
+
     for i, insurance in enumerate(insurance_data, start=1):
-        sum_assured = int(insurance.premium) * int(term)
+
+        if number_of_family_members is not None:
+            sum_assured = int(insurance.premium) * int(term) * number_of_family_members
+            premium = insurance.premium * 4
+        else:
+            sum_assured = int(insurance.premium) * int(term)
+            premium = insurance.premium
         plan = {
             "title": f"Policy {i}",
-            "subtitle": f"Premium: ${insurance.premium}/mo, Sum assured: ${float(sum_assured)}/yo",
+            "subtitle": f"Premium: ${premium}/mo, Sum assured: ${float(sum_assured)}/yo",
             "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
             "buttons": []
         }
