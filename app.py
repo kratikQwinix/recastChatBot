@@ -200,10 +200,10 @@ def show_policies():
 def create_carousel(insurance_data,term):
     plans = []
     for i, insurance in enumerate(insurance_data,start=1):
-        sum_assured = insurance_data.premium * term
+        sum_assured = insurance.premium * term
         plan = {
                 "title": f"Policy {i}",
-                "subtitle": f"Premium: {insurance_data.premium}, Sum assured: {sum_assured}",
+                "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
                 "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
                 "buttons": []
             }
