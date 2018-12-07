@@ -288,7 +288,7 @@ def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
             },
             {
                 "title": "Policy 2",
-                "subtitle": f"Premium per month: {plan_2}, Sum assured: {sum_assured, Term: {term}}",
+                "subtitle": f"Premium per month: {plan_2}, Sum assured: {sum_assured}, Term: {term}",
                 "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/"
                             "company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
                 "buttons": []
