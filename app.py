@@ -139,39 +139,8 @@ def get_policy_individual_details():
     return "OK"
 
 
-@app.route('/api/v1/select_insurance', methods=['POST'])
-def buy_assistance():
-    recast_response = json.loads(request.get_data())
-    conversation_id = recast_response['conversation']['id']
-    button_types = [{
-        "type": "buttons",
-        "content": {
-            "title": "Please select from the options below",
-            "buttons": [
-                {
-                    "title": "travel",
-                    "type": "postback",
-                    "value": "travel"
-                },
-                {
-                    "title": "vehicle",
-                    "type": "postback",
-                    "value": "vehicle"
-                },
-                {
-                    "title": "health",
-                    "type": "postback",
-                    "value": "health"
-                }
-            ]
-        }
-    }]
-    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                         json={"messages": button_types})
-    return "Ok"
 
-@app.route('/api/v1/select_insurance_1', methods=['POST'])
+@app.route('/api/v1/select_insurance', methods=['POST'])
 def buy_assistance_1():
     recast_response = json.loads(request.get_data())
     conversation_id = recast_response['conversation']['id']
@@ -205,75 +174,6 @@ def buy_assistance_1():
 
 
 
-@app.route('/api/v1/buy_travel_insurance', methods=['POST'])
-def buy_travel_insurance():
-    recast_response = json.loads(request.get_data())
-    conversation_id = recast_response['conversation']['id']
-    response_message_obj = [{
-        "type": "text",
-        "content": "Let's do it. First, we need to ask you few questions."
-    },
-        {
-            "type": "text",
-            "content": "Please send me your Email Id. We'll send you the policy document on this email id."
-        }
-    ]
-    req = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-                        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-                        json={"messages": response_message_obj})
-    return "Done"
-
-@app.route('/api/v1/get_best_plan', methods=['POST'])
-def get_best_plan():
-    recast_response = json.loads(request.get_data())
-    conversation_id = recast_response['conversation']['id']
-    date = dateutil.parser.parse(recast_response['nlp']['entities']['datetime'][0]['iso']).date()
-    today = datetime.now().date()
-    number_of_days = (date - today).days
-    if number_of_days < 30:
-        response_message = [{
-            "type": "text",
-            "content": "Looking at all the information provided, I suggest you go for the 'basic' insurance plan"
-        }]
-    elif number_of_days > 30:
-        response_message = [{
-            "type": "text",
-            "content": "Looking at all the information provided, I suggest you go for the 'premium' insurance plan"
-        }]
-    message_sent_response = requests.post(
-        f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-        json={"messages": response_message})
-    return "Okay"
-
-@app.route('/api/v1/get_best_policies', methods=['POST'])
-def get_best_healty_policy():
-    recast_response = json.loads(request.get_data())
-    conversation_id = recast_response['conversation']['id']
-    memory = recast_response['conversation']['memory']
-    age = memory['age']['value']
-    salary = recast_response['nlp']['entities']['salary'][0]['value']
-    response_message_obj = [{
-        "type": "text",
-        "content": "According to the date you've provided, here are some plans you could go for."
-    }]
-    if age == "20-40" and salary== "more_than_5000":
-        carousle_items = create_carousel("$80","$100","$120","$10000","10 years")
-    elif age == "20-40" and salary == "less_than_5000":
-        carousle_items = create_carousel("$40", "$60", "$80","$8000","10 years")
-    elif age == "40-60" and salary == "less_than_5000":
-        carousle_items = create_carousel("$120", "$140", "$160","$8000","15 years")
-    elif age == "40-60" and salary == "more_than_5000":
-        carousle_items = create_carousel("$200", "$220", "$250","$10000","15 years")
-
-    response_message_obj.append(carousle_items)
-    message_sent_response = requests.post(
-        f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
-        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
-        json={"messages": response_message_obj})
-
-    print(message_sent_response.text)
-    return "Ok"
 
 def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
     list_of_plans = {
