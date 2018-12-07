@@ -295,7 +295,7 @@ def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
                 "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
                 "buttons": [{
                     "title": "Click here to buy",
-                    "type": "links",
+                    "type": "link",
                     "value": "#"
                 }]
             },
