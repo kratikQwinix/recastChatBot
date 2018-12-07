@@ -194,7 +194,7 @@ def show_policies():
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
     response_message_obj.append(create_carousel(insurance_data, term))
 
-    see_more = {
+    see_more = [{
         "type": "buttons",
         "content": {
             "title": "To see more like this",
@@ -206,11 +206,14 @@ def show_policies():
                 }
             ]
         }
-    }
-    response_message_obj.append(see_more)
+    }]
+
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": response_message_obj})
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": see_more})
     print(resp.text)
     return "Okay"
 
