@@ -249,13 +249,58 @@ def get_best_plan():
 @app.route('/api/v1/get_best_policies', methods=['POST'])
 def get_best_healty_policy():
     recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
+    age = memory['age']['value']
+    salary = memory['salary']['value']
+    response_message_obj = [{
+        "type": "text",
+        "content": "According to the date you've provided, here are some plans you could go for."
+    }]
+    if age == "20-40" and salary== ">$5000":
+        carousle_items = create_carousel("$80","$100","$120","$10000","10 years")
+    elif age == "20-40" and salary == "<$5000":
+        carousle_items = create_carousel("$40", "$60", "$80","$8000","10 years")
+    elif age == "40-60" and salary == "<$5000":
+        carousle_items = create_carousel("$120", "$140", "$160","$8000","15 years")
+    elif age == "40-60" and salary == ">$5000":
+        carousle_items = create_carousel("$200", "$220", "$250","$10000","15 years")
 
-    print("---------------------------")
-    print(memory)
-    print("---------------------------")
+    response_message_obj.append(carousle_items)
+    message_sent_response = requests.post(
+        f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+        headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+        json={"messages": response_message_obj})
 
+    print(message_sent_response.text)
     return "Ok"
+
+def create_carousel(plan_1,plan_2,plan_3,sum_assured,term):
+    list_of_plans = {
+        "type": "carousel",
+        "content": [
+            {
+                "title": "Policy 1",
+                "subtitle": f"Premium per month: {plan_1} \n Sum assured: {sum_assured} \n Term: {term}",
+                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
+                "buttons": []
+            },
+            {
+                "title": "Policy 2",
+                "subtitle": f"Premium per month: {plan_2} \n Sum assured: {sum_assured \n Term: {term}}",
+                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
+                "buttons": []
+            },
+            {
+                "title": "Policy 3",
+                "subtitle": f"Premium per month: {plan_3} \n Sum assured: {sum_assured} \n Term: {term}",
+                "imageUrl": "https://media.licdn.com/dms/image/C4E0BAQEqJ7-YxlwqSA/company-logo_200_200/0?e=2159024400&v=beta&t=7uwWiOsPAiYiv94Nr3tVZRfqeRVTXfObj2B1tPbAfL0",
+                "buttons": []
+            }
+        ]
+    }
+    return  list_of_plans
+
 
 if __name__ == '__main__':
     app.run()
