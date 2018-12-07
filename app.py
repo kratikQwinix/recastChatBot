@@ -195,8 +195,13 @@ def show_policies():
         "content": "Here are some plans I found that you might like."
     }]
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
+
     response_message_obj.append(create_carousel(insurance_data, term,number_of_family_members))
 
+    if number_of_family_members is not None:
+        value = f"https://protected-beyond-91709.herokuapp.com/api/v1/search?age={age}&term={term}&family_members={number_of_family_members}"
+    else:
+        value = f"https://protected-beyond-91709.herokuapp.com/api/v1/search?age={age}&term={term}"
     see_more = [{
         "type": "buttons",
         "content": {
@@ -205,7 +210,7 @@ def show_policies():
                 {
                     "title": "Click here",
                     "type": "web_url",
-                    "value": f"https://protected-beyond-91709.herokuapp.com/api/v1/search?age={age}&term={term}"
+                    "value": value
                 }
             ]
         }
@@ -235,7 +240,7 @@ def create_carousel(insurance_data,term,number_of_family_members):
             premium = insurance.premium
         plan = {
             "title": f"Policy {i}",
-            "subtitle": f"Premium: ${premium}/mo, Sum assured: ${float(sum_assured)}/yo",
+            "subtitle": f"Premium: ${premium}/mo, Sum assured: ${float(sum_assured)}",
             "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
             "buttons": []
         }
