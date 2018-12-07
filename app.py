@@ -180,7 +180,7 @@ def show_policies():
     conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
     age = memory["age"]["raw"]
-    term = recast_response["nlp"]["entities"]["term"]["raw"]
+    term = recast_response["nlp"]["entities"]["term"][0]["raw"]
     if term == "5 years":
         term = 5
     elif term == "10 years":
