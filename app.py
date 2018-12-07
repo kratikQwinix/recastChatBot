@@ -171,6 +171,40 @@ def buy_assistance():
                          json={"messages": button_types})
     return "Ok"
 
+@app.route('/api/v1/select_insurance_1', methods=['POST'])
+def buy_assistance_1():
+    recast_response = json.loads(request.get_data())
+    conversation_id = recast_response['conversation']['id']
+    button_types = [{
+        "type": "buttons",
+        "content": {
+            "title": "Please select from the options below",
+            "buttons": [
+                {
+                    "title": "life",
+                    "type": "postback",
+                    "value": "life"
+                },
+                {
+                    "title": "medical",
+                    "type": "postback",
+                    "value": "medical"
+                },
+                {
+                    "title": "dental",
+                    "type": "postback",
+                    "value": "dental"
+                }
+            ]
+        }
+    }]
+    resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
+                         headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
+                         json={"messages": button_types})
+    return "Ok"
+
+
+
 @app.route('/api/v1/buy_travel_insurance', methods=['POST'])
 def buy_travel_insurance():
     recast_response = json.loads(request.get_data())
