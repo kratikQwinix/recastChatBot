@@ -181,7 +181,6 @@ def show_policies():
     memory = recast_response['conversation']['memory']
     age = memory["age"]["raw"]
     str_term = recast_response["nlp"]["entities"]["term"][0]["raw"]
-    print(str_term)
     if str_term == "5-years":
         term = 5
     elif str_term == "10-years":
@@ -212,7 +211,12 @@ def create_carousel(insurance_data,term):
         plans.append(plan)
     list_of_plans = {
         "type": "carousel",
-        "content": plans
+        "content": [{
+                "title": f"Policy {i}",
+                "subtitle": f"Premium: {insurance.premium}, Sum assured: {sum_assured}",
+                "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
+                "buttons": []
+            }]
     }
     return list_of_plans
 
