@@ -251,5 +251,11 @@ def create_carousel(insurance_data,term,number_of_family_members):
     }
     return list_of_plans
 
+@app.route('/api/v1/search', methods=['POST'])
+def search_insurance():
+    print(request.args.to_dict())
+    print("-----------------")
+    return "ok"
+
 if __name__ == '__main__':
     app.run()
