@@ -177,10 +177,16 @@ def buy_assistance():
 @app.route('/api/v1/show_policies', methods=['POST'])
 def show_policies():
     recast_response = json.loads(request.get_data())
+    print("==========================")
+    print(recast_response['conversation']['memory'])
+    print("==========================")
     conversation_id = recast_response['conversation']['id']
     memory = recast_response['conversation']['memory']
     number_of_family_members = None
     age = memory["age"]["raw"]
+    print("============AGE============")
+    print(age)
+    print("===========AGE=============")
     str_term = recast_response["nlp"]["entities"]["term"][0]["raw"]
     if "family_members" in memory.keys():
         number_of_family_members = memory["family_members"]["raw"]
@@ -251,7 +257,7 @@ def create_carousel(insurance_data,term,number_of_family_members):
     }
     return list_of_plans
 
-@app.route('/api/v1/search', methods=['POST'])
+@app.route('/api/v1/search', methods=['GET'])
 def search_insurance():
     print(request.args.to_dict())
     print("-----------------")
