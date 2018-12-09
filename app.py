@@ -265,5 +265,6 @@ def search_insurance():
     family_count = int(filter_params["family_members"]) if filter_params.get('family_members') else 1
     similar_insurances = session.query(Insurance).filter_by(age=filter_params["age"]).all()
     return render_template('search.html', insurances=similar_insurances, total_premium_multiplier=total_months*family_count)
+
 if __name__ == '__main__':
     app.run()

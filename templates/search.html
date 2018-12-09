@@ -98,7 +98,7 @@ header {
 
 
 <body>
-<nav class="navbar  navbar-expand-lg navbar-dark bg-dark ">
+    <nav class="navbar  navbar-expand-lg navbar-dark bg-dark ">
       <div class="container">
         <a class="navbar-brand" href="index.html"><img src="../static/logo.png" alt="Logo"></a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -108,7 +108,7 @@ header {
     </nav>
     <div class="container-fluid bg-gradient">
         <div class="row m-auto text-center w-75 justify-content-center">
-            {% for insurance in similar_insurances %}
+            {% for insurance in insurances %}
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 princing-item blue">
                 <div class="pricing-divider ">
                     <h5 class="text-muted">Plan Type</h5>
