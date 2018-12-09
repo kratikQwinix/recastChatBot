@@ -245,7 +245,7 @@ def create_carousel(insurance_data,term,number_of_family_members):
             sum_assured = int(insurance.premium) * int(term)
             premium = insurance.premium
         plan = {
-            "title": f"Policy {i}",
+            "title": f"Plan tyoe {insurance.plan}",
             "subtitle": f"Premium: ${premium}/mo, Sum assured: ${float(sum_assured)}",
             "imageUrl": "https://s3.amazonaws.com/images.productionhub.com/profiles/logos/325796_a5mdmymdaw.jpg",
             "buttons": []
