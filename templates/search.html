@@ -108,7 +108,7 @@ header {
     </nav>
     <div class="container-fluid bg-gradient">
         <div class="row m-auto text-center w-75 justify-content-center">
-            {% for insurance in insurances %}
+            {% for insurance in similar_insurances %}
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 princing-item blue">
                 <div class="pricing-divider ">
                     <h5 class="text-muted">Plan Type</h5>
@@ -116,6 +116,9 @@ header {
                     <hr>
                     <h5 class="text-muted">Premium</h5>
                     <h4 class="my-0 mt-3 text-light font-weight-normal mb-3"><span class="h2">$</span><span class="h2">{{insurance.premium}}</span><span
+                            class="h2">/mo</span></h4>
+                    <h5 class="text-muted">Total</h5>
+                    <h4 class="my-0 mt-3 text-light font-weight-normal mb-3"><span class="h2">$</span><span class="h2">{{insurance.premium * total_premium_multiplier}}</span><span
                             class="h2">/mo</span></h4>
                     <svg class='pricing-divider-img' enable-background='new 0 0 300 100' height='100px' id='Layer_1'
                         preserveAspectRatio='none' version='1.1' viewBox='0 0 200 60' width='300px' x='0px' xml:space='preserve'
@@ -135,19 +138,12 @@ header {
                     </svg>
                 </div>
                 <div class="card-body bg-white mt-0 shadow">
-                    <!--<ul class="list-unstyled mb-5 position-relative">-->
-                        <!--<li><b>Policy Number: </b>{{insurance.policy_number}}</li>-->
-                        <!--<li><b>Expiration Date: </b>{{insurance.expiration_date.strftime('%Y-%m-%d')}}</li>-->
-                        <!--<li><b>Status: </b>{{insurance.status}}</li>-->
-                    <!--</ul>-->
-                    <button type="button" class="btn btn-lg btn-block  btn-custom white-space-pre">Click to know more</button>
+                    <button type="button" class="btn btn-lg btn-block  btn-custom white-space-pre">Click here to buy</button>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-    <script src="https://cdn.recast.ai/webchat/webchat.js" channelId="a7731fcf-bda9-46ea-aa5e-2320e5246724" token="7e30f914d2c36a427c7efdcd840b4638"
-        id="recast-webchat"></script>
 </body>
 
 </html>
