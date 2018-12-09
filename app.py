@@ -260,7 +260,6 @@ def create_carousel(insurance_data,term,number_of_family_members):
 @app.route('/api/v1/search', methods=['GET'])
 def search_insurance():
     filter_params = request.args.to_dict()
-    print(filter_params)
     total_months = int(filter_params["term"])*12 if filter_params.get('term') else 12
     family_count = int(filter_params["family_members"]) if filter_params.get('family_members') else 1
     similar_insurances = session.query(Insurance).filter_by(age=filter_params["age"]).all()
