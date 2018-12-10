@@ -115,7 +115,7 @@ header {
                     <h2 class="text-light text-capitalize">{{insurance.plan}}</h2>
                     <hr>
                     <h5 class="text-muted">Premium</h5>
-                    <h4 class="my-0 mt-3 text-light font-weight-normal mb-3"><span class="h2">$</span><span class="h2">{{insurance.premium}}</span><span
+                    <h4 class="my-0 mt-3 text-light font-weight-normal mb-3"><span class="h2">$</span><span class="h2">{{'{:7,.1f}'.format(insurance.premium)}}</span><span
                             class="h2">/mo</span></h4>
                     <hr>
                     <h5 class="text-muted">Total</h5>
