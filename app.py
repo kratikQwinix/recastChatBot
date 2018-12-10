@@ -68,7 +68,7 @@ def get_insurance_data():
                 }
             },{
                 "type": "text",
-                "content":"What else would you like to know? You can search for either of expiration date, policy status, address, phone number and policy type."
+                "content":"What else would you like to know? You can search for either of Expiration date, Policy status, Sddress, Phone number and Policy type."
             }
         ]
         data_to_store_in_memory = {
@@ -110,19 +110,15 @@ def get_policy_individual_details():
     all_entities = ['policy_number','premium','account_name','expiration_date','policy_status',"user_insurance_type","user_insurance_address","user_phone_number","plan"]
     memory = recast_response['conversation']['memory']
     conversation_id = recast_response['conversation']['id']
-    entity_mapping = {"policy_number": "Policy Number",
-                      "account_name": "Account Name",
+    entity_mapping = {"policy_number": "Policy number",
+                      "account_name": "Account name",
                       "premium": "Premium",
-                      "expiration_date": "Expiration Date",
-                      "policy_status": "Policy Status",
-                      "user_insurance_type": "Insurance Type",
+                      "expiration_date": "Expiration fate",
+                      "policy_status": "Policy dtatus",
+                      "user_insurance_type": "Insurance type",
                       "user_insurance_address": "Address",
-                      "user_phone_number": "Phone Number",
+                      "user_phone_number": "Phone number",
                       "plan": "Plan"}
-    response_message_obj = [{
-        "type": "text",
-        "content": "Here's what I found."
-    }]
     resp = requests.post(f'https://api.recast.ai/connect/v1/conversations/{conversation_id}/messages',
                          headers={'Authorization': f'Token {RECAST_DEVELOPER_TOKEN}'},
                          json={"messages": response_message_obj})
