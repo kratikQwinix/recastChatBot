@@ -192,7 +192,7 @@ def show_policies():
         term = 15
     response_message_obj = [{
         "type": "text",
-        "content": "Here are some plans I found that you might like."
+        "content": "Based on the details you have provided, here are some plans I found"
     }]
     insurance_data = session.query(Insurance).filter_by(age=age).limit(3).all()
 
@@ -205,7 +205,7 @@ def show_policies():
     see_more = [{
         "type": "buttons",
         "content": {
-            "title": "To see more like this",
+            "title": "For similar policies",
             "buttons": [
                 {
                     "title": "Click here",
